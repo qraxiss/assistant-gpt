@@ -37,9 +37,11 @@ app.use((req, res, next) => {
 // routes
 import { router as authRouter } from './routes/auth'
 import { router as sampleRouter } from './routes/sample'
+import { router as chatRouter } from './routes/chat'
 
 app.use('/auth', authRouter)
 app.use('/sample', sampleRouter)
+app.use('/chat', chatRouter)
 
 // Error Handling
 app.use(status500)
