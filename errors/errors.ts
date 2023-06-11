@@ -8,6 +8,10 @@ export abstract class BaseError extends Error {
         this.detail = detail
     }
 
+    get name(): string {
+        return this.constructor.name // Use the subclass name as the name property
+    }
+
     abstract serializeErrors(): { status: number; detail: string; message: string }[]
 }
 
