@@ -80,3 +80,24 @@ export async function appendMessage(params: any): Promise<{ result: boolean }> {
 
     return { result: result.modifiedCount > 0 }
 }
+
+export async function sendHistoryToOpenAi(params: any) {
+    const value = validate(params, validators.getSingleChat) as types.getSingleChat
+
+    const result = await ChatModel.findOne(value)
+
+    if (!result) {
+        throw new NotFoundError('Chat not found!')
+    }
+
+    if (result.history.length === 0) {
+        throw new NotFoundError('Chat history is empty!')
+    }
+
+    const message = await getResponse(result.history)
+
+    return {
+        response: message,
+        isMessageSaved: await appendMessage({ name: value.name, message: message })
+    }
+}

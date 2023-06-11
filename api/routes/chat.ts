@@ -10,5 +10,6 @@ router.patch('/', ChatController.updateChat)
 router.delete('/', ChatController.deleteChat)
 
 router.post('/message', ChatController.appendMessage)
+router.post('/send-history', ChatController.sendHistoryToOpenAi)
 
 export { router }

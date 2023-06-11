@@ -26,3 +26,7 @@ export const appendMessage = Joi.object({
         role: Joi.string().required()
     }).required()
 })
+
+export const getSingleChat = Joi.object({
+    name: Joi.string().required()
+})

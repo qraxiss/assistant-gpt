@@ -19,11 +19,16 @@ export class ChatController {
 
     @ahandler
     static async getChat(req: any, res: any) {
-        res.json(await chatLogic.getChat(req.query))
+        res.json(await chatLogic.getChat(req.body))
     }
 
     @ahandler
     static async appendMessage(req: any, res: any) {
         res.json(await chatLogic.appendMessage(req.body))
+    }
+
+    @ahandler
+    static async sendHistoryToOpenAi(req: any, res: any) {
+        res.json(await chatLogic.sendHistoryToOpenAi(req.body))
     }
 }

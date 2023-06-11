@@ -23,6 +23,10 @@ export interface getChat {
   name?: string;
 }
 
+export interface getSingleChat {
+  name: string;
+}
+
 export interface updateChat {
   chat?: {
     name?: string;
