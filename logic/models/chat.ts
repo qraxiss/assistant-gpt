@@ -2,11 +2,13 @@ import * as validators from '../validators/chat'
 import { validate } from '../helpers/validator'
 import * as types from '../types'
 
-import { ChatModel } from '../../database/models/chat'
+import { ChatModel, Chat } from '../../database/models/chat'
 
 import { DatabaseError, NotFoundError } from '../../errors/errors'
 
-export async function createChat(params: any) {
+import { getResponse } from '../helpers/ai-analysis'
+
+export async function createChat(params: any): Promise<Chat> {
     const value = validate(params, validators.createChat) as types.createChat
 
     const result = await ChatModel.create(value)
@@ -18,7 +20,7 @@ export async function createChat(params: any) {
     return result
 }
 
-export async function updateChat(params: any) {
+export async function updateChat(params: any): Promise<{ result: boolean }> {
     const value = validate(params, validators.updateChat) as types.updateChat
 
     const result = await ChatModel.updateOne({ name: value.name }, value.chat, { new: true })
@@ -34,7 +36,7 @@ export async function updateChat(params: any) {
     return { result: result.modifiedCount > 0 }
 }
 
-export async function deleteChat(params: any) {
+export async function deleteChat(params: any): Promise<{ result: boolean }> {
     const value = validate(params, validators.deleteChat) as types.deleteChat
 
     const result = await ChatModel.deleteOne(value)
@@ -46,7 +48,7 @@ export async function deleteChat(params: any) {
     return { result: result.deletedCount > 0 }
 }
 
-export async function getChat(params: any) {
+export async function getChat(params: any): Promise<Chat[] | Chat> {
     const value = validate(params, validators.getChat) as types.getChat
 
     // if query is {}, return all chats
@@ -60,10 +62,10 @@ export async function getChat(params: any) {
         throw new NotFoundError('Chat not found!')
     }
 
-    return result
+    return result as Chat
 }
 
-export async function appendMessage(params: any) {
+export async function appendMessage(params: any): Promise<{ result: boolean }> {
     const value = validate(params, validators.appendMessage) as types.appendMessage
 
     const result = await ChatModel.updateOne({ name: value.name }, { $push: { history: value.message } })
